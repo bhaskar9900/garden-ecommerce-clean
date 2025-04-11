@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Database Explorer - Garden E-commerce</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* DB Explorer Specific Styles */
+        body {
+            background-color: #f9fafb;
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .db-explorer {
+            display: flex;
+            flex-grow: 1;
+            height: calc(100vh - 80px);
+        }
+        
+        .sidebar {
+            width: 300px;
+            background-color: white;
+            border-right: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .connection-panel {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .connection-status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            background-color: #d1d5db;
+        }
+        
+        .status-connected {
+            background-color: #065f46;
+            color: white;
+        }
+        
+        .status-disconnected {
+            background-color: #b91c1c;
+            color: white;
+        }
+        
+        .tables-panel {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+        
+        .schema-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .schema-name {
+            padding: 0.5rem;
+            background-color: #f3f4f6;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .schema-name:hover {
+            background-color: #e5e7eb;
+        }
+        
+        .schema-tables {
+            padding-left: 1rem;
+            display: none;
+        }
+        
+        .schema-tables.show {
+            display: block;
+        }
+        
+        .table-item {
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .table-item:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .query-panel {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .query-actions {
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .results-panel {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        
+        .results-message {
+            padding: 1rem;
+            background-color: #f3f4f6;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        .results-message.error {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        
+        .results-message.success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .results-table th {
+            background-color: #1a4d3c;
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        .results-table td {
+            padding: 0.75rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .results-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        input[type="text"], 
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        
+        textarea {
+            min-height: 100px;
+            font-family: monospace;
+            resize: vertical;
+        }
+        
+        .button {
+            background-color: #1a4d3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .button:hover {
+            background-color: #2c614f;
+        }
+        
+        .button.secondary {
+            background-color: #d1d5db;
+            color: #1f2937;
+        }
+        
+        .button.secondary:hover {
+            background-color: #9ca3af;
+        }
+        
+        .table-count {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        .db-header {
+            background-color: #1a4d3c;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .db-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .home-link {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .home-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header class="db-header">
+        <h1 class="db-title">Supabase Database Explorer</h1>
+        <a href="index.html" class="home-link">
+            <i class="fas fa-home"></i>
+            Return to Site
+        </a>
+    </header>
+    
+    <div class="db-explorer">
+        <div class="sidebar">
+            <div class="connection-panel">
+                <h2>Database Connection</h2>
+                <form id="connection-form">
+                    <div class="form-group">
+                        <label for="supabase-url">Supabase URL</label>
+                        <input type="text" id="supabase-url" value="https://ktaznqxiclyictwlgkeb.supabase.co" placeholder="https://your-project.supabase.co">
+                    </div>
+                    <div class="form-group">
+                        <label for="supabase-key">Supabase Anon Key</label>
+                        <input type="password" id="supabase-key" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt0YXpucXhpY2x5aWN0d2xna2ViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQyODE0MzQsImV4cCI6MjA1OTg1NzQzNH0.LkAP572Qn3Du5I3Kkrp7B5RbOR0GtXV8YbaFzPe25YE" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+                    </div>
+                    <button type="button" id="connect-btn" class="button">Connect to Database</button>
+                    <div id="connection-status" class="connection-status">Not connected</div>
+                </form>
+            </div>
+            <div class="tables-panel" id="tables-list">
+                <div class="results-message">Please connect to the database first</div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="query-panel">
+                <h2>SQL Query</h2>
+                <div class="form-group">
+                    <textarea id="sql-query" placeholder="SELECT * FROM your_table LIMIT 100;"></textarea>
+                </div>
+                <div class="query-actions">
+                    <button id="run-query-btn" class="button">Run Query</button>
+                    <button id="clear-query-btn" class="button secondary">Clear</button>
+                </div>
+            </div>
+            <div class="results-panel" id="results-container">
+                <div class="results-message">Your query results will appear here</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/mcp-config.js"></script>
+    <script src="js/db-explorer.js"></script>
+</body>
+</html> 

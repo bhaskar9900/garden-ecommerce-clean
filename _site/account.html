@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create an account or sign in to My Culture Garden Experience">
+    <meta name="theme-color" content="#1a4d3c">
+    <title>Account - My Culture Garden Experience</title>
+    
+    <!-- Critical Meta Tags -->
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Account - My Culture Garden Experience">
+    <meta property="og:description" content="Create an account or sign in to access your My Culture garden profile">
+    <meta property="og:image" content="/images/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Preload Critical Assets -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    <link rel="preload" href="/fonts/CrimsonPro-Medium.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Fonts and Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /* Page-specific styles */
+        .account-section {
+            padding: 5rem 0;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .account-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+        
+        .account-image {
+            background-image: url('images/indoor-category.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            color: white;
+        }
+        
+        .account-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(26, 77, 60, 0.8), transparent);
+            z-index: 1;
+        }
+        
+        .account-image-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .account-image-title {
+            font-family: var(--font-family-accent);
+            font-size: var(--font-size-2xl);
+            margin-bottom: 1rem;
+        }
+        
+        .account-forms {
+            padding: 3rem;
+        }
+        
+        .account-tab-container {
+            display: flex;
+            border-bottom: 1px solid var(--color-neutral-200);
+            margin-bottom: 2rem;
+        }
+        
+        .account-tab {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-neutral-600);
+            position: relative;
+        }
+        
+        .account-tab.active {
+            color: var(--color-primary);
+        }
+        
+        .account-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--color-primary);
+        }
+        
+        .account-form {
+            display: none;
+        }
+        
+        .account-form.active {
+            display: block;
+        }
+        
+        .form-title {
+            font-size: var(--font-size-xl);
+            margin-bottom: 1.5rem;
+            color: var(--color-neutral-900);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: var(--font-weight-medium);
+            color: var(--color-neutral-800);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-neutral-300);
+            border-radius: var(--border-radius-md);
+            background-color: white;
+            font-size: var(--font-size-base);
+            transition: all var(--transition-fast);
+        }
+        
+        .form-group input:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(26, 77, 60, 0.2);
+            outline: none;
+        }
+        
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-checkbox input {
+            margin-right: 0.5rem;
+        }
+        
+        .form-button {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-md);
+            font-weight: var(--font-weight-medium);
+            font-size: var(--font-size-base);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .form-button:hover {
+            background-color: var(--color-primary-dark);
+        }
+        
+        .form-divider {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0;
+            color: var(--color-neutral-500);
+        }
+        
+        .form-divider::before,
+        .form-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: var(--color-neutral-200);
+        }
+        
+        .form-divider span {
+            padding: 0 1rem;
+        }
+        
+        .social-login {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .social-login-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-neutral-300);
+            border-radius: var(--border-radius-md);
+            background-color: white;
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .social-login-button:hover {
+            background-color: var(--color-neutral-100);
+        }
+        
+        .social-login-button i {
+            margin-right: 0.5rem;
+        }
+        
+        .form-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            color: var(--color-neutral-600);
+        }
+        
+        .form-footer a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+        
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .account-container {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+            }
+            
+            .account-image {
+                min-height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-indicator"></div>
+    
+    <!-- Custom Cursor Elements -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-dot"></div>
+    
+    <!-- Particles Background -->
+    <div class="particles-container" id="particles-js"></div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="site-header" role="banner">
+        <div class="header-backdrop"></div>
+        <nav class="nav-main" role="navigation" aria-label="Main navigation">
+            <div class="container nav-container">
+                <a href="/" class="nav-logo" aria-label="My Culture Home">
+                    <img src="images/new/mc-logo.png" alt="My Culture Logo" width="120" height="120">
+                </a>
+                
+                <div class="nav-center">
+                    <form class="search-form" role="search">
+                        <label class="visually-hidden" for="site-search">Search products</label>
+                        <input type="search" id="site-search" placeholder="Search products..."
+                               aria-label="Search products">
+                        <button type="submit" aria-label="Submit search">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="nav-links" role="menubar">
+                    <a href="index.html#products" class="nav-link" role="menuitem">Products</a>
+                    <a href="index.html#about" class="nav-link" role="menuitem">About</a>
+                    <a href="index.html#contact" class="nav-link" role="menuitem">Contact</a>
+                </div>
+
+                <div class="nav-actions">
+                    <a href="account.html" class="button-icon active" aria-label="My Account">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                    </a>
+                    <button class="button-icon" aria-label="Open search" data-action="open-search">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                    </button>
+                    <button class="button-icon" aria-label="View shopping cart" data-action="view-cart">
+                        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        <span class="cart-badge" aria-label="0 items in cart">0</span>
+                    </button>
+                    <button class="nav-toggle" aria-expanded="false" aria-controls="mobile-menu"
+                            aria-label="Toggle menu">
+                        <span class="hamburger"></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+            <div class="mobile-menu-header">
+                <a href="/" class="nav-logo" aria-label="My Culture Home">
+                    <img src="images/new/mc-logo.png" alt="My Culture Logo" width="120" height="120">
+                </a>
+                <button class="mobile-close" aria-label="Close menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="mobile-nav">
+                <a href="index.html#products" class="mobile-nav-link">Products</a>
+                <a href="index.html#about" class="mobile-nav-link">About</a>
+                <a href="index.html#contact" class="mobile-nav-link">Contact</a>
+                <div class="mobile-divider"></div>
+                <a href="indoor-plants.html" class="mobile-nav-link">Indoor Plants</a>
+                <a href="outdoor-plants.html" class="mobile-nav-link">Outdoor Plants</a>
+                <a href="accessories.html" class="mobile-nav-link">Accessories</a>
+                <a href="account.html" class="mobile-nav-link active">My Account</a>
+            </nav>
+            <div class="mobile-footer">
+                <div class="mobile-social">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" role="main">
+        <section class="account-section">
+            <div class="container">
+                <div class="account-container">
+                    <div class="account-image">
+                        <div class="account-image-content">
+                            <h2 class="account-image-title">Join Our Garden Community</h2>
+                            <p>Create an account to access exclusive member benefits:</p>
+                            <ul>
+                                <li>Track your orders and order history</li>
+                                <li>Save your favorite plants and products</li>
+                                <li>Receive personalized gardening tips</li>
+                                <li>Get exclusive member-only discounts</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="account-forms">
+                        <div class="account-tab-container">
+                            <div class="account-tab active" data-tab="login">Sign In</div>
+                            <div class="account-tab" data-tab="register">Create Account</div>
+                        </div>
+                        
+                        <!-- Login Form -->
+                        <form class="account-form active" id="login-form">
+                            <h2 class="form-title">Welcome Back</h2>
+                            
+                            <div class="form-group">
+                                <label for="login-email">Email Address</label>
+                                <input type="email" id="login-email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="login-password">Password</label>
+                                <input type="password" id="login-password" name="password" required>
+                            </div>
+                            
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="remember-me" name="remember">
+                                <label for="remember-me">Remember me</label>
+                            </div>
+                            
+                            <button type="submit" class="form-button">Sign In</button>
+                            
+                            <div class="form-footer">
+                                <a href="#" class="forgot-password">Forgot your password?</a>
+                            </div>
+                            
+                            <div class="form-divider">
+                                <span>Or continue with</span>
+                            </div>
+                            
+                            <div class="social-login">
+                                <button type="button" class="social-login-button" data-provider="google">
+                                    <i class="fab fa-google"></i> Google
+                                </button>
+                                <button type="button" class="social-login-button" data-provider="facebook">
+                                    <i class="fab fa-facebook-f"></i> Facebook
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <!-- Register Form -->
+                        <form class="account-form" id="register-form">
+                            <h2 class="form-title">Create Your Account</h2>
+                            
+                            <div class="form-group">
+                                <label for="register-name">Full Name</label>
+                                <input type="text" id="register-name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="register-email">Email Address</label>
+                                <input type="email" id="register-email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="register-password">Password</label>
+                                <input type="password" id="register-password" name="password" required 
+                                      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+                                      title="Must contain at least one number, one uppercase letter, one lowercase letter, and be at least 8 characters long">
+                                <small>Password must be at least 8 characters with numbers, uppercase and lowercase letters</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="register-confirm-password">Confirm Password</label>
+                                <input type="password" id="register-confirm-password" name="confirm-password" required>
+                            </div>
+                            
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="terms" name="terms" required>
+                                <label for="terms">I agree to the <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="privacy-link">Privacy Policy</a></label>
+                            </div>
+                            
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="newsletter" name="newsletter">
+                                <label for="newsletter">Subscribe to our newsletter for gardening tips and special offers</label>
+                            </div>
+                            
+                            <button type="submit" class="form-button">Create Account</button>
+                            
+                            <div class="form-divider">
+                                <span>Or sign up with</span>
+                            </div>
+                            
+                            <div class="social-login">
+                                <button type="button" class="social-login-button" data-provider="google">
+                                    <i class="fab fa-google"></i> Google
+                                </button>
+                                <button type="button" class="social-login-button" data-provider="facebook">
+                                    <i class="fab fa-facebook-f"></i> Facebook
+                                </button>
+                            </div>
+                        </form>
+                        <!-- Add the button to display tables section after the user login form section -->
+                        <div class="form-divider">
+                            <span>Database Tools</span>
+                        </div>
+                        <div class="db-tools-section">
+                            <button type="button" id="list-tables-btn" class="form-button" style="margin-bottom: 1rem;">List All Supabase Tables</button>
+                            <div id="tables-result" style="max-height: 300px; overflow-y: auto; border: 1px solid #eee; padding: 1rem; display: none; margin-top: 1rem;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" aria-label="My Culture Home">
+                        <img src="images/new/mc-logo-white.png" alt="My Culture" width="120" height="120">
+                    </a>
+                    <p class="footer-tagline">Premium Garden Experience</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-nav">
+                    <h3>Shop</h3>
+                    <ul>
+                        <li><a href="indoor-plants.html">Indoor Plants</a></li>
+                        <li><a href="outdoor-plants.html">Outdoor Plants</a></li>
+                        <li><a href="accessories.html">Accessories</a></li>
+                        <li><a href="#care">Plant Care</a></li>
+                        <li><a href="#gift">Gift Sets</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="index.html#about">Our Story</a></li>
+                        <li><a href="#sustainability">Sustainability</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#press">Press</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav">
+                    <h3>Customer Care</h3>
+                    <ul>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#faq">FAQs</a></li>
+                        <li><a href="#shipping">Shipping & Returns</a></li>
+                        <li><a href="#warranty">Plant Guarantee</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2023 My Culture Garden Experience. All rights reserved.</p>
+                <div class="payment-methods">
+                    <span>Secure Payments:</span>
+                    <i class="fab fa-cc-visa" aria-label="Visa"></i>
+                    <i class="fab fa-cc-mastercard" aria-label="Mastercard"></i>
+                    <i class="fab fa-cc-amex" aria-label="American Express"></i>
+                    <i class="fab fa-cc-paypal" aria-label="PayPal"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="particles.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/mcp-config.js"></script>
+    <script src="js/mcp-init.js"></script>
+    <script src="js/auth-config.js"></script>
+    <script src="js/auth-utils.js"></script>
+    <script src="js/social-auth.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.account-tab');
+            const forms = document.querySelectorAll('.account-form');
+            
+            // Initialize tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and forms
+                    tabs.forEach(t => t.classList.remove('active'));
+                    forms.forEach(f => f.classList.remove('active'));
+                    
+                    // Add active class to current tab
+                    this.classList.add('active');
+                    
+                    // Show corresponding form
+                    const targetForm = document.getElementById(this.dataset.target);
+                    if (targetForm) {
+                        targetForm.classList.add('active');
+                    }
+                });
+            });
+            
+            // Form validation
+            const registerForm = document.getElementById('register-form');
+            const loginForm = document.getElementById('login-form');
+            const accountContainer = document.querySelector('.account-container');
+            const userInfoContainer = document.getElementById('user-info-container');
+            
+            // Check if user is already logged in
+            checkUserSession();
+            
+            async function checkUserSession() {
+                const result = await SupabaseAPI.auth.getCurrentUser();
+                
+                if (result.success && result.data) {
+                    // User is logged in, show account management instead of login/register
+                    showLoggedInState(result.data);
+                }
+            }
+            
+            function showLoggedInState(user) {
+                // Hide login/register forms
+                document.querySelector('.account-tabs').style.display = 'none';
+                document.querySelector('.account-forms').style.display = 'none';
+                
+                // Show user info
+                userInfoContainer.style.display = 'block';
+                userInfoContainer.innerHTML = `
+                    <h2>Welcome, ${user.email || 'User'}</h2>
+                    <div class="user-details">
+                        <p><strong>Email:</strong> ${user.email || 'N/A'}</p>
+                        <p><strong>User ID:</strong> ${user.id}</p>
+                        <p><strong>Last Login:</strong> ${new Date().toLocaleString()}</p>
+                    </div>
+                    <div class="account-actions">
+                        <h3>Account Management</h3>
+                        <ul>
+                            <li><a href="orders.html">View Orders</a></li>
+                            <li><a href="wishlist.html">View Wishlist</a></li>
+                            <li><a href="settings.html">Account Settings</a></li>
+                        </ul>
+                        <button id="logout-btn" class="btn btn-primary">Logout</button>
+                    </div>
+                `;
+                
+                // Add logout functionality
+                document.getElementById('logout-btn').addEventListener('click', async function() {
+                    const result = await SupabaseAPI.auth.signOut();
+                    
+                    if (result.success) {
+                        alert('You have been logged out successfully');
+                        window.location.reload();
+                    } else {
+                        alert('Error logging out: ' + result.error);
+                    }
+                });
+            }
+            
+            // Handle registration form submission
+            if (registerForm) {
+                registerForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const name = this.querySelector('input[name="name"]').value;
+                    const email = this.querySelector('input[name="email"]').value;
+                    const password = this.querySelector('input[name="password"]').value;
+                    const confirmPassword = this.querySelector('input[name="confirm-password"]').value;
+                    
+                    // Validate passwords match
+                    if (password !== confirmPassword) {
+                        alert("Passwords don't match");
+                        return;
+                    }
+                    
+                    // Register user with Supabase
+                    const result = await SupabaseAPI.auth.signUp({
+                        email,
+                        password,
+                        options: {
+                            data: { name }
+                        }
+                    });
+                    
+                    if (result.success) {
+                        alert('Registration successful! Please check your email to confirm your account.');
+                        // Switch to login tab
+                        document.querySelector('.account-tab[data-target="login-form"]').click();
+                    } else {
+                        alert('Registration failed: ' + result.error);
+                    }
+                });
+            }
+            
+            // Handle login form submission
+            if (loginForm) {
+                loginForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const email = this.querySelector('input[name="email"]').value;
+                    const password = this.querySelector('input[name="password"]').value;
+                    
+                    // Login user with Supabase
+                    const result = await SupabaseAPI.auth.signIn({
+                        email,
+                        password
+                    });
+                    
+                    if (result.success) {
+                        alert('Login successful!');
+                        showLoggedInState(result.data);
+                    } else {
+                        alert('Login failed: ' + result.error);
+                    }
+                });
+            }
+            
+            // Add button to list all tables in Supabase
+            const listTablesBtn = document.getElementById('list-tables-btn');
+            const tablesResult = document.getElementById('tables-result');
+            
+            if (listTablesBtn) {
+                listTablesBtn.addEventListener('click', async function() {
+                    try {
+                        // Show loading state
+                        listTablesBtn.disabled = true;
+                        listTablesBtn.textContent = 'Loading tables...';
+                        tablesResult.innerHTML = '<p>Fetching database tables...</p>';
+                        tablesResult.style.display = 'block';
+                        
+                        // Get list of all tables
+                        const result = await MCP.listTables();
+                        
+                        if (result.success) {
+                            // Format and display the tables
+                            let html = '<h3>Supabase Database Tables</h3>';
+                            
+                            for (const schema in result.data) {
+                                html += `<div class="schema-section">
+                                    <h4>${schema} schema</h4>
+                                    <ul>`;
+                                    
+                                result.data[schema].forEach(table => {
+                                    html += `<li><strong>${table}</strong> <button class="view-schema-btn" data-schema="${schema}" data-table="${table}">View Schema</button></li>`;
+                                });
+                                
+                                html += `</ul></div>`;
+                            }
+                            
+                            tablesResult.innerHTML = html;
+                            
+                            // Add event listeners to schema buttons
+                            document.querySelectorAll('.view-schema-btn').forEach(btn => {
+                                btn.addEventListener('click', async function() {
+                                    const schema = this.getAttribute('data-schema');
+                                    const table = this.getAttribute('data-table');
+                                    
+                                    try {
+                                        this.disabled = true;
+                                        this.textContent = 'Loading...';
+                                        
+                                        const schemaResult = await MCP.getTableSchema(schema, table);
+                                        
+                                        if (schemaResult.success) {
+                                            let schemaHtml = `<div class="schema-details" style="margin-left: 20px; margin-top: 10px; margin-bottom: 15px;">
+                                                <h5>${schema}.${table} columns:</h5>
+                                                <table style="width:100%; border-collapse: collapse;">
+                                                    <tr>
+                                                        <th style="text-align:left; padding:5px; border-bottom:1px solid #ddd;">Column</th>
+                                                        <th style="text-align:left; padding:5px; border-bottom:1px solid #ddd;">Type</th>
+                                                        <th style="text-align:left; padding:5px; border-bottom:1px solid #ddd;">Nullable</th>
+                                                        <th style="text-align:left; padding:5px; border-bottom:1px solid #ddd;">Default</th>
+                                                    </tr>`;
+                                            
+                                            schemaResult.data.forEach(column => {
+                                                schemaHtml += `<tr>
+                                                    <td style="padding:5px; border-bottom:1px solid #eee;">${column.column_name}</td>
+                                                    <td style="padding:5px; border-bottom:1px solid #eee;">${column.data_type}</td>
+                                                    <td style="padding:5px; border-bottom:1px solid #eee;">${column.is_nullable}</td>
+                                                    <td style="padding:5px; border-bottom:1px solid #eee;">${column.column_default || ''}</td>
+                                                </tr>`;
+                                            });
+                                            
+                                            schemaHtml += `</table></div>`;
+                                            
+                                            // Find the parent li element and append the schema details
+                                            const parentLi = this.parentNode;
+                                            
+                                            // Check if schema details already exist
+                                            const existingDetails = parentLi.querySelector('.schema-details');
+                                            if (existingDetails) {
+                                                existingDetails.remove();
+                                                this.textContent = 'View Schema';
+                                            } else {
+                                                parentLi.insertAdjacentHTML('beforeend', schemaHtml);
+                                                this.textContent = 'Hide Schema';
+                                            }
+                                            
+                                        } else {
+                                            alert(`Error fetching schema: ${schemaResult.error}`);
+                                            this.textContent = 'View Schema';
+                                        }
+                                        
+                                        this.disabled = false;
+                                    } catch (error) {
+                                        console.error('Error viewing schema:', error);
+                                        alert('Error viewing schema: ' + error.message);
+                                        this.disabled = false;
+                                        this.textContent = 'View Schema';
+                                    }
+                                });
+                            });
+                            
+                        } else {
+                            tablesResult.innerHTML = `<p class="error">Error listing tables: ${result.error}</p>`;
+                        }
+                    } catch (error) {
+                        console.error('Error listing tables:', error);
+                        tablesResult.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+                    } finally {
+                        // Reset button state
+                        listTablesBtn.disabled = false;
+                        listTablesBtn.textContent = 'List All Supabase Tables';
+                    }
+                });
+            }
+            
+            // Test MCP PostgreSQL Connection
+            async function testMCPConnection() {
+                try {
+                    // Test the direct PostgreSQL connection
+                    const initResult = await MCP.initialize();
+                    
+                    if (!initResult.success) {
+                        throw new Error(`MCP initialization failed: ${initResult.error}`);
+                    }
+                    
+                    // Try to get data from the users table
+                    const usersResult = await MCP.getTableData(PG_TABLES.USERS, { limit: 5 });
+                    
+                    if (!usersResult.success) {
+                        throw new Error(`Failed to fetch users: ${usersResult.error}`);
+                    }
+                    
+                    console.log('MCP PostgreSQL Connection Test Successful');
+                    console.log('Sample users:', usersResult.data);
+                    return true;
+                } catch (error) {
+                    console.error('MCP Connection Test Failed:', error.message);
+                    return false;
+                }
+            }
+            
+            // Run connection test
+            testMCPConnection().then(success => {
+                console.log('MCP Connection Test Result:', success ? 'SUCCESS' : 'FAILED');
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razorpay Direct Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1a4d3c;
+        }
+        button {
+            background-color: #1a4d3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #2a6d5c;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+        .log {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+    <!-- Razorpay SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Razorpay Direct Test</h1>
+        <p>This page will test Razorpay payment directly without going through the checkout page.</p>
+        
+        <div class="status" id="status">Ready to test</div>
+        
+        <button id="create-order">Create Order & Test Payment</button>
+        
+        <div class="log" id="log"></div>
+    </div>
+    
+    <script>
+        // Logging function
+        function log(message) {
+            const logElement = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            if (typeof message === 'object') {
+                logElement.innerHTML += `${timestamp}: ${JSON.stringify(message, null, 2)}\n\n`;
+            } else {
+                logElement.innerHTML += `${timestamp}: ${message}\n\n`;
+            }
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+        
+        // Update status
+        function updateStatus(message, isError = false) {
+            const statusElement = document.getElementById('status');
+            statusElement.textContent = message;
+            statusElement.style.backgroundColor = isError ? '#ffe6e6' : '#e6ffe6';
+            statusElement.style.color = isError ? '#d32f2f' : '#2e7d32';
+            statusElement.style.border = `1px solid ${isError ? '#d32f2f' : '#2e7d32'}`;
+            log(message);
+        }
+        
+        // Check if Razorpay is loaded
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                if (typeof Razorpay === 'undefined') {
+                    updateStatus('Razorpay script failed to load', true);
+                } else {
+                    log('Razorpay script loaded successfully');
+                }
+            }, 1000);
+        });
+        
+        // Create order and test payment
+        document.getElementById('create-order').addEventListener('click', async function() {
+            try {
+                updateStatus('Creating order...');
+                
+                // Create an order on the server
+                const orderResponse = await fetch('http://localhost:3001/api/razorpay/create-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        amount: 100,
+                        currency: 'INR',
+                        receipt: 'test_receipt_' + Date.now(),
+                        notes: {
+                            test: true
+                        }
+                    })
+                });
+                
+                const orderData = await orderResponse.json();
+                log('Order creation response:');
+                log(orderData);
+                
+                if (!orderData.success || !orderData.order) {
+                    throw new Error('Failed to create order: ' + (orderData.error || 'Unknown error'));
+                }
+                
+                updateStatus('Opening Razorpay...');
+                
+                // Initialize Razorpay
+                const razorpay = new Razorpay({
+                    key: 'YOUR_RAZORPAY_KEY_ID',
+                    order_id: orderData.order.id,
+                    amount: orderData.order.amount,
+                    currency: orderData.order.currency,
+                    name: 'My Culture Garden',
+                    description: 'Test Payment',
+                    image: '/images/logo-icon.png',
+                    prefill: {
+                        name: 'Test User',
+                        email: 'test@example.com',
+                        contact: '9876543210'
+                    },
+                    theme: {
+                        color: '#1a4d3c'
+                    },
+                    handler: function(response) {
+                        log('Payment successful:');
+                        log(response);
+                        updateStatus('Payment successful! Verifying...');
+                        
+                        // Verify payment
+                        verifyPayment(response);
+                    },
+                    modal: {
+                        ondismiss: function() {
+                            log('Checkout form closed');
+                            updateStatus('Checkout closed by user', true);
+                        }
+                    }
+                });
+                
+                // Open Razorpay checkout
+                razorpay.open();
+                
+            } catch (error) {
+                log('Error:');
+                log(error.message);
+                updateStatus('Error: ' + error.message, true);
+            }
+        });
+        
+        // Verify payment
+        async function verifyPayment(response) {
+            try {
+                const verifyResponse = await fetch('http://localhost:3001/api/razorpay/verify-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(response)
+                });
+                
+                const verifyData = await verifyResponse.json();
+                log('Payment verification response:');
+                log(verifyData);
+                
+                if (verifyData.success) {
+                    updateStatus('Payment verified successfully!');
+                } else {
+                    updateStatus('Payment verification failed: ' + (verifyData.error || 'Unknown error'), true);
+                }
+                
+            } catch (error) {
+                log('Verification error:');
+                log(error.message);
+                updateStatus('Verification error: ' + error.message, true);
+            }
+        }
+    </script>
+</body>
+</html> 

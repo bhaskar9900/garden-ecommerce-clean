@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete your purchase - My Culture Garden Experience">
+    <meta name="theme-color" content="#1a4d3c">
+    <title>Checkout - My Culture Garden Experience</title>
+    
+    <!-- Critical Meta Tags -->
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Checkout - My Culture Garden Experience">
+    <meta property="og:description" content="Complete your purchase - My Culture Garden Experience">
+    <meta property="og:image" content="/images/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Preload Critical Assets -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    <link rel="preload" href="/fonts/CrimsonPro-Medium.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://checkout.razorpay.com">
+    
+    <!-- Fonts and Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Razorpay -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+    <script>
+        // Verify Razorpay script loading
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                if (typeof Razorpay === 'undefined') {
+                    console.error('Razorpay script failed to load properly. Will attempt to reload.');
+                    // Attempt to reload the script
+                    var script = document.createElement('script');
+                    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+                    script.async = true;
+                    script.onload = function() {
+                        console.log('Razorpay script successfully reloaded');
+                    };
+                    document.head.appendChild(script);
+                } else {
+                    console.log('Razorpay script loaded successfully');
+                }
+            }, 2000);
+        });
+    </script>
+    
+    <style>
+        /* Page-specific styles */
+        .checkout-section {
+            padding: 4rem 0;
+            min-height: 80vh;
+        }
+        
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+        
+        .checkout-steps {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+        
+        .checkout-step {
+            padding: 2rem;
+            border-bottom: 1px solid var(--color-neutral-200);
+        }
+        
+        .checkout-step:last-child {
+            border-bottom: none;
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--color-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: var(--font-weight-bold);
+            margin-right: 1rem;
+        }
+        
+        .step-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-neutral-900);
+            margin: 0;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: var(--font-weight-medium);
+            color: var(--color-neutral-800);
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-neutral-300);
+            border-radius: var(--border-radius-md);
+            background-color: white;
+            font-size: var(--font-size-base);
+            transition: all var(--transition-fast);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(26, 77, 60, 0.2);
+            outline: none;
+        }
+        
+        .shipping-option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--color-neutral-300);
+            border-radius: var(--border-radius-md);
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .shipping-option:hover {
+            border-color: var(--color-primary-light);
+            background-color: var(--color-neutral-50);
+        }
+        
+        .shipping-option.selected {
+            border-color: var(--color-primary);
+            background-color: rgba(26, 77, 60, 0.05);
+        }
+        
+        .shipping-option input {
+            margin-right: 1rem;
+        }
+        
+        .shipping-option-info {
+            flex: 1;
+        }
+        
+        .shipping-option-title {
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: 0.25rem;
+        }
+        
+        .shipping-option-description {
+            font-size: var(--font-size-sm);
+            color: var(--color-neutral-600);
+        }
+        
+        .shipping-option-price {
+            font-weight: var(--font-weight-medium);
+            color: var(--color-neutral-900);
+        }
+        
+        .payment-methods {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .payment-method {
+            flex: 1;
+            flex-basis: calc(25% - 1rem);
+            min-width: 100px;
+            border: 1px solid var(--color-neutral-300);
+            border-radius: var(--border-radius-md);
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .payment-method:hover {
+            border-color: var(--color-primary-light);
+            background-color: var(--color-neutral-50);
+        }
+        
+        .payment-method.selected {
+            border-color: var(--color-primary);
+            background-color: rgba(26, 77, 60, 0.05);
+        }
+        
+        .payment-method-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-neutral-900);
+        }
+        
+        .payment-method-logo {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .payment-method-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .payment-notice {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: var(--color-neutral-50);
+            border-radius: var(--border-radius-md);
+            border-left: 4px solid var(--color-primary);
+        }
+        
+        .payment-notice p {
+            margin: 0;
+            color: var(--color-neutral-800);
+        }
+        
+        .payment-notice i {
+            color: var(--color-primary);
+            margin-right: 0.5rem;
+        }
+        
+        .qr-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 1.5rem auto;
+            width: 150px;
+            height: 150px;
+            background-color: white;
+            border: 1px solid var(--color-neutral-300);
+            border-radius: var(--border-radius-md);
+            padding: 1rem;
+            color: var(--color-neutral-600);
+        }
+        
+        .qr-placeholder i {
+            margin-bottom: 1rem;
+        }
+        
+        .qr-placeholder p {
+            font-size: var(--font-size-sm);
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .payment-method {
+                flex-basis: calc(50% - 1rem);
+            }
+        }
+        
+        .card-inputs {
+            margin-top: 1.5rem;
+        }
+        
+        .order-summary {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: 2rem;
+            position: sticky;
+            top: 2rem;
+        }
+        
+        .summary-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: 1.5rem;
+            color: var(--color-neutral-900);
+        }
+        
+        .summary-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+        }
+        
+        .summary-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--color-neutral-200);
+        }
+        
+        .summary-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .summary-item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: var(--border-radius-md);
+            margin-right: 1rem;
+        }
+        
+        .summary-item-details {
+            flex: 1;
+        }
+        
+        .summary-item-title {
+            font-weight: var(--font-weight-medium);
+            margin-bottom: 0.25rem;
+        }
+        
+        .summary-item-meta {
+            font-size: var(--font-size-sm);
+            color: var(--color-neutral-600);
+        }
+        
+        .summary-item-price {
+            font-weight: var(--font-weight-medium);
+        }
+        
+        .summary-totals {
+            margin-top: 1.5rem;
+            border-top: 1px solid var(--color-neutral-200);
+            padding-top: 1.5rem;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        
+        .summary-row.total {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-neutral-200);
+        }
+        
+        .place-order-button {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-md);
+            font-weight: var(--font-weight-medium);
+            font-size: var(--font-size-base);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            margin-top: 1.5rem;
+        }
+        
+        .place-order-button:hover {
+            background-color: var(--color-primary-dark);
+        }
+        
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+            color: var(--color-neutral-600);
+            font-size: var(--font-size-sm);
+        }
+        
+        .secure-badge i {
+            margin-right: 0.5rem;
+            color: var(--color-success);
+        }
+        
+        @media (max-width: 992px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .order-summary {
+                position: static;
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-indicator"></div>
+    
+    <!-- Custom Cursor Elements -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-dot"></div>
+    
+    <!-- Particles Background -->
+    <div class="particles-container" id="particles-js"></div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="site-header" role="banner">
+        <div class="header-backdrop"></div>
+        <nav class="nav-main" role="navigation" aria-label="Main navigation">
+            <div class="container nav-container">
+                <a href="/" class="nav-logo" aria-label="My Culture Home">
+                    <img src="images/new/mc-logo.png" alt="My Culture Logo" width="120" height="120">
+                </a>
+                
+                <div class="nav-center">
+                    <form class="search-form" role="search">
+                        <label class="visually-hidden" for="site-search">Search products</label>
+                        <input type="search" id="site-search" placeholder="Search products..."
+                               aria-label="Search products">
+                        <button type="submit" aria-label="Submit search">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="nav-links" role="menubar">
+                    <a href="index.html#products" class="nav-link" role="menuitem">Products</a>
+                    <a href="index.html#about" class="nav-link" role="menuitem">About</a>
+                    <a href="index.html#contact" class="nav-link" role="menuitem">Contact</a>
+                </div>
+
+                <div class="nav-actions">
+                    <a href="account.html" class="button-icon" aria-label="My Account">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                    </a>
+                    <button class="button-icon" aria-label="Open search" data-action="open-search">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                    </button>
+                    <a href="cart.html" class="button-icon" aria-label="View shopping cart">
+                        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        <span class="cart-badge" aria-label="0 items in cart">0</span>
+                    </a>
+                    <button class="nav-toggle" aria-expanded="false" aria-controls="mobile-menu"
+                            aria-label="Toggle menu">
+                        <span class="hamburger"></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+            <div class="mobile-menu-header">
+                <a href="/" class="nav-logo" aria-label="My Culture Home">
+                    <img src="images/new/mc-logo.png" alt="My Culture Logo" width="120" height="120">
+                </a>
+                <button class="mobile-close" aria-label="Close menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="mobile-nav">
+                <a href="index.html#products" class="mobile-nav-link">Products</a>
+                <a href="index.html#about" class="mobile-nav-link">About</a>
+                <a href="index.html#contact" class="mobile-nav-link">Contact</a>
+                <div class="mobile-divider"></div>
+                <a href="indoor-plants.html" class="mobile-nav-link">Indoor Plants</a>
+                <a href="outdoor-plants.html" class="mobile-nav-link">Outdoor Plants</a>
+                <a href="accessories.html" class="mobile-nav-link">Accessories</a>
+                <a href="account.html" class="mobile-nav-link">My Account</a>
+                <a href="cart.html" class="mobile-nav-link">Shopping Cart</a>
+            </nav>
+            <div class="mobile-footer">
+                <div class="mobile-social">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" role="main">
+        <section class="checkout-section">
+            <div class="container">
+                <h1 class="section-title">Checkout</h1>
+                
+                <div class="checkout-container">
+                    <div class="checkout-steps">
+                        <!-- Shipping Address Step -->
+                        <div class="checkout-step">
+                            <div class="step-header">
+                                <div class="step-number">1</div>
+                                <h2 class="step-title">Shipping Address</h2>
+                            </div>
+                            
+                            <form id="shipping-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="first-name">First Name</label>
+                                        <input type="text" id="first-name" name="first-name" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="last-name">Last Name</label>
+                                        <input type="text" id="last-name" name="last-name" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="address">Street Address</label>
+                                    <input type="text" id="address" name="address" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="apartment">Apartment, Suite, etc. (optional)</label>
+                                    <input type="text" id="apartment" name="apartment">
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="city">City</label>
+                                        <input type="text" id="city" name="city" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="state">State/Province</label>
+                                        <select id="state" name="state" required>
+                                            <option value="">Select State</option>
+                                            <option value="AL">Alabama</option>
+                                            <option value="AK">Alaska</option>
+                                            <option value="AZ">Arizona</option>
+                                            <!-- More states would be listed here -->
+                                            <option value="WY">Wyoming</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="zip">ZIP/Postal Code</label>
+                                        <input type="text" id="zip" name="zip" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number</label>
+                                        <input type="tel" id="phone" name="phone" required>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Shipping Method Step -->
+                        <div class="checkout-step">
+                            <div class="step-header">
+                                <div class="step-number">2</div>
+                                <h2 class="step-title">Shipping Method</h2>
+                            </div>
+                            
+                            <div class="shipping-options">
+                                <label class="shipping-option selected">
+                                    <input type="radio" name="shipping-method" value="standard" checked>
+                                    <div class="shipping-option-info">
+                                        <div class="shipping-option-title">Standard Shipping</div>
+                                        <div class="shipping-option-description">Delivery in 3-5 business days</div>
+                                    </div>
+                                    <div class="shipping-option-price">$9.99</div>
+                                </label>
+                                
+                                <label class="shipping-option">
+                                    <input type="radio" name="shipping-method" value="express">
+                                    <div class="shipping-option-info">
+                                        <div class="shipping-option-title">Express Shipping</div>
+                                        <div class="shipping-option-description">Delivery in 1-2 business days</div>
+                                    </div>
+                                    <div class="shipping-option-price">$19.99</div>
+                                </label>
+                                
+                                <label class="shipping-option">
+                                    <input type="radio" name="shipping-method" value="free" disabled>
+                                    <div class="shipping-option-info">
+                                        <div class="shipping-option-title">Free Shipping</div>
+                                        <div class="shipping-option-description">Free on orders over $75</div>
+                                    </div>
+                                    <div class="shipping-option-price">$0.00</div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Step -->
+                        <div class="checkout-step">
+                            <div class="step-header">
+                                <div class="step-number">3</div>
+                                <h2 class="step-title">Payment Information</h2>
+                            </div>
+                            
+                            <div class="payment-methods">
+                                <div class="payment-method selected" data-method="card">
+                                    <div class="payment-method-icon">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <div>Credit Card</div>
+                                </div>
+
+                                <div class="payment-method" data-method="phonepay">
+                                    <div class="payment-method-logo">
+                                        <img src="images/payment/phonepe-logo.png" alt="PhonePe" width="40" height="40">
+                                    </div>
+                                    <div>PhonePe</div>
+                                </div>
+
+                                <div class="payment-method" data-method="googlepay">
+                                    <div class="payment-method-logo">
+                                        <img src="images/payment/googlepay-logo.png" alt="Google Pay" width="60" height="24">
+                                    </div>
+                                    <div>Google Pay</div>
+                                </div>
+
+                                <div class="payment-method" data-method="paytm">
+                                    <div class="payment-method-logo">
+                                        <img src="images/payment/paytm-logo.png" alt="PayTm" width="50" height="25">
+                                    </div>
+                                    <div>PayTm</div>
+                                </div>
+
+                                <div class="payment-method" data-method="cod">
+                                    <div class="payment-method-icon">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                    </div>
+                                    <div>Cash on Delivery</div>
+                                </div>
+                            </div>
+                            
+                            <form id="payment-form">
+                                <div class="card-inputs">
+                                    <div class="form-group">
+                                        <label for="card-name">Cardholder Name</label>
+                                        <input type="text" id="card-name" name="card-name" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="card-number">Card Number</label>
+                                        <input type="text" id="card-number" name="card-number" placeholder="•••• •••• •••• ••••" required>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="expiry-date">Expiry Date</label>
+                                            <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY" required>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="cvv">Security Code (CVV)</label>
+                                            <input type="text" id="cvv" name="cvv" placeholder="•••" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Order Summary -->
+                    <div class="order-summary">
+                        <h2 class="summary-title">Order Summary</h2>
+                        
+                        <div id="summary-items" class="summary-items">
+                            <!-- Items will be dynamically populated from cart -->
+                        </div>
+                        
+                        <div class="summary-totals">
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span id="summary-subtotal">$0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Shipping</span>
+                                <span id="summary-shipping">$9.99</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Tax</span>
+                                <span id="summary-tax">$0.00</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total</span>
+                                <span id="summary-total">$0.00</span>
+                            </div>
+                        </div>
+                        
+                        <button id="place-order-button" class="place-order-button">
+                            Place Order
+                        </button>
+                        
+                        <div class="secure-badge">
+                            <i class="fas fa-lock"></i>
+                            <span>Secure Checkout - Your data is protected</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" aria-label="My Culture Home">
+                        <img src="images/new/mc-logo-white.png" alt="My Culture" width="120" height="120">
+                    </a>
+                    <p class="footer-tagline">Premium Garden Experience</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-nav">
+                    <h3>Shop</h3>
+                    <ul>
+                        <li><a href="indoor-plants.html">Indoor Plants</a></li>
+                        <li><a href="outdoor-plants.html">Outdoor Plants</a></li>
+                        <li><a href="accessories.html">Accessories</a></li>
+                        <li><a href="#care">Plant Care</a></li>
+                        <li><a href="#gift">Gift Sets</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="index.html#about">Our Story</a></li>
+                        <li><a href="#sustainability">Sustainability</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#press">Press</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav">
+                    <h3>Customer Care</h3>
+                    <ul>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#faq">FAQs</a></li>
+                        <li><a href="#shipping">Shipping & Returns</a></li>
+                        <li><a href="#warranty">Plant Guarantee</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2023 My Culture Garden Experience. All rights reserved.</p>
+                <div class="payment-methods">
+                    <span>Secure Payments:</span>
+                    <i class="fab fa-cc-visa" aria-label="Visa"></i>
+                    <i class="fab fa-cc-mastercard" aria-label="Mastercard"></i>
+                    <i class="fab fa-cc-amex" aria-label="American Express"></i>
+                    <i class="fab fa-cc-paypal" aria-label="PayPal"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
+    <script src="js/razorpay-config.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+</html> 
