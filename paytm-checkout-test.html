@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayTm Checkout Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        h1 {
+            margin-bottom: 30px;
+        }
+        
+        .payment-container {
+            max-width: 600px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        
+        .payment-method {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-method:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+        
+        .payment-method.selected {
+            border-color: #28a745;
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+        
+        .payment-notice {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .qr-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>PayTm Checkout Test</h1>
+    
+    <div class="payment-container">
+        <div class="payment-method" data-method="paytm" id="paytm-method">
+            <h3>PayTm</h3>
+            <p>Pay using PayTm wallet or UPI</p>
+        </div>
+        
+        <div id="payment-display"></div>
+        
+        <button id="test-button">Test PayTm Display</button>
+    </div>
+    
+    <div class="card-inputs" style="display: none;"></div>
+    
+    <script>
+        document.getElementById('test-button').addEventListener('click', function() {
+            const paymentMethod = 'paytm';
+            const cardInputs = document.querySelector('.card-inputs');
+            const paymentDisplay = document.getElementById('payment-display');
+            
+            // Clear previous content
+            paymentDisplay.innerHTML = '';
+            
+            // Select the payment method
+            document.querySelectorAll('.payment-method').forEach(method => {
+                method.classList.remove('selected');
+            });
+            document.getElementById('paytm-method').classList.add('selected');
+            
+            // Create digital payment element
+            const digitalPayment = document.createElement('div');
+            digitalPayment.id = 'digital-payment-option';
+            digitalPayment.className = 'payment-notice';
+            
+            const paymentMethodName = 'PayTm';
+            const logoSrc = 'data:image/png;base64,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';
+            const logoAlt = 'PayTm';
+            const logoWidth = '100';
+            const logoHeight = '80';
+            
+            digitalPayment.innerHTML = `
+                <p><i class="fas fa-info-circle"></i> You will be redirected to ${paymentMethodName} 
+                after placing your order.</p>
+                <div class="qr-placeholder">
+                    <img src="${logoSrc}" alt="${logoAlt}" width="${logoWidth}" height="${logoHeight}">
+                    <p>QR Code will be generated at checkout</p>
+                </div>
+            `;
+            
+            paymentDisplay.appendChild(digitalPayment);
+        });
+    </script>
+</body>
+</html> 

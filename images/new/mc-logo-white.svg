@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .logo-text { font-family: 'Crimson Pro', serif; font-weight: 600; }
+    .white { fill: #ffffff; }
+    .accent { fill: #e09f3e; }
+  </style>
+  <g>
+    <!-- Plant/Leaf element -->
+    <path class="white" d="M60 15c-8 0-15 3-20 8 15-5 30 5 30 20 0-15 15-25 30-20-5-5-12-8-20-8-5 0-10 3-10 8-0-5-5-8-10-8z"/>
+    <path class="white" d="M60 30c-5 0-10 2-13 6 10-3 20 3 20 13 0-10 10-16 20-13-3-4-8-6-13-6-3 0-7 2-7 6-0-4-4-6-7-6z"/>
+    
+    <!-- Pot/Container -->
+    <rect class="white" x="45" y="80" width="30" height="25" rx="2"/>
+    <rect class="accent" x="43" y="75" width="34" height="5" rx="1"/>
+    
+    <!-- Stem -->
+    <rect class="white" x="59" y="50" width="2" height="30"/>
+    
+    <!-- Text -->
+    <text x="60" y="105" class="logo-text" text-anchor="middle" font-size="10" fill="white">MY CULTURE</text>
+  </g>
+</svg> 

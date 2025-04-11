@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayTm Image Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 40px 0;
+            gap: 20px;
+        }
+        .test-section {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .test-section h2 {
+            margin-top: 0;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <h1>PayTm Logo Test</h1>
+    
+    <div class="test-section">
+        <h2>Testing logo from images/payment/paytm-logo.jpeg</h2>
+        <div class="logo-container">
+            <img src="images/payment/paytm-logo.jpeg" alt="PayTm Logo" width="100" height="80">
+            <p>This is using the local file you copied from D:\blue logo design.jpeg</p>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Testing paytm section from checkout page</h2>
+        <div id="payment-display"></div>
+        <button id="test-button" style="background-color: #1a4d3c; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">
+            Show PayTm Payment Section
+        </button>
+    </div>
+    
+    <div class="card-inputs" style="display: none;"></div>
+    
+    <script>
+        document.getElementById('test-button').addEventListener('click', function() {
+            const paymentMethod = 'paytm';
+            const cardInputs = document.querySelector('.card-inputs');
+            const paymentDisplay = document.getElementById('payment-display');
+            
+            // Clear previous content
+            paymentDisplay.innerHTML = '';
+            
+            // Create digital payment element
+            const digitalPayment = document.createElement('div');
+            digitalPayment.id = 'digital-payment-option';
+            digitalPayment.style.border = '1px solid #ddd';
+            digitalPayment.style.borderRadius = '8px';
+            digitalPayment.style.padding = '15px';
+            digitalPayment.style.marginTop = '20px';
+            
+            const paymentMethodName = 'PayTm';
+            const logoSrc = 'images/payment/paytm-logo.jpeg';
+            const logoAlt = 'PayTm';
+            const logoWidth = '100';
+            const logoHeight = '80';
+            
+            digitalPayment.innerHTML = `
+                <p><i>You will be redirected to ${paymentMethodName} 
+                after placing your order.</i></p>
+                <div style="display: flex; flex-direction: column; align-items: center; margin-top: 15px;">
+                    <img src="${logoSrc}" alt="${logoAlt}" width="${logoWidth}" height="${logoHeight}">
+                    <p>QR Code will be generated at checkout</p>
+                </div>
+            `;
+            
+            paymentDisplay.appendChild(digitalPayment);
+        });
+    </script>
+</body>
+</html> 

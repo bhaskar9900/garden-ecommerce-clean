@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Premium garden supplies and plants for the modern gardener.">
+    <meta name="theme-color" content="#1a4d3c">
+    <title>My Culture - Premium Garden Experience</title>
+    
+    <!-- Critical Meta Tags -->
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="My Culture - Premium Garden Experience">
+    <meta property="og:description" content="Transform your space with premium plants and gardening essentials">
+    <meta property="og:image" content="/images/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Preload Critical Assets -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    <link rel="preload" href="/fonts/CrimsonPro-Medium.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://my.spline.design" crossorigin>
+    
+    <!-- Optimize loading for critical resources -->
+    <link rel="dns-prefetch" href="https://my.spline.design">
+    
+    <!-- Fonts and Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-indicator"></div>
+    
+    <!-- Custom Cursor Elements -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-dot"></div>
+    
+    <!-- Particles Background -->
+    <div class="particles-container" id="particles-js"></div>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="site-header" role="banner">
+        <div class="header-backdrop"></div>
+        <nav class="nav-main" role="navigation" aria-label="Main navigation">
+            <div class="container nav-container">
+                <a href="/" class="nav-logo" aria-label="My Culture Home">
+                    <img src="images/new/mc-logo.png" alt="My Culture Logo" width="120" height="120">
+                </a>
+                
+                <div class="nav-center">
+                    <form class="search-form" role="search">
+                        <label class="visually-hidden" for="site-search">Search products</label>
+                        <input type="search" id="site-search" placeholder="Search products..."
+                               aria-label="Search products">
+                        <button type="submit" aria-label="Submit search">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="nav-links" role="menubar">
+                    <a href="#products" class="nav-link" role="menuitem">Products</a>
+                    <a href="#about" class="nav-link" role="menuitem">About</a>
+                    <a href="#contact" class="nav-link" role="menuitem">Contact</a>
+                </div>
+
+                <div class="nav-actions">
+                    <a href="account.html" class="button-icon" aria-label="My Account">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                    </a>
+                    <button class="button-icon" aria-label="Open search" data-action="open-search">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                    </button>
+                    <a href="cart.html" class="button-icon" aria-label="View shopping cart" data-action="view-cart">
+                        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        <span class="cart-badge" aria-label="0 items in cart">0</span>
+                    </a>
+                    <button class="nav-toggle" aria-expanded="false" aria-controls="mobile-menu"
+                            aria-label="Toggle menu">
+                        <span class="hamburger"></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+            <div class="mobile-menu-header">
+                <a href="/" class="nav-logo" aria-label="My Culture Home">
+                    <img src="images/new/mc-logo.png" alt="My Culture Logo" width="120" height="120">
+                </a>
+                <button class="mobile-close" aria-label="Close menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="mobile-nav">
+                <a href="#products" class="mobile-nav-link">Products</a>
+                <a href="#about" class="mobile-nav-link">About</a>
+                <a href="#contact" class="mobile-nav-link">Contact</a>
+                <div class="mobile-divider"></div>
+                <a href="indoor-plants.html" class="mobile-nav-link">Indoor Plants</a>
+                <a href="outdoor-plants.html" class="mobile-nav-link">Outdoor Plants</a>
+                <a href="accessories.html" class="mobile-nav-link">Accessories</a>
+                <a href="account.html" class="mobile-nav-link">My Account</a>
+                <a href="cart.html" class="mobile-nav-link">Shopping Cart</a>
+            </nav>
+            <div class="mobile-footer">
+                <div class="mobile-social">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main id="main-content" role="main">
+        <section class="hero-section" aria-labelledby="hero-title" style="border: 0; border-image: none;">
+            <div class="spline-container">
+                <iframe src='about:blank' 
+                        data-src='https://my.spline.design/waterringsandsaplingtree-hXzQji1TTFe8ZS4npnoU4sqV/'
+                        frameborder='0' 
+                        width='100%' 
+                        height='100%'
+                        loading="lazy"
+                        title="Decorative 3D animation"
+                        allow="accelerometer; autoplay" 
+                        importance="low"
+                        aria-hidden="true"></iframe>
+            </div>
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <h1 id="hero-title" class="hero-title">Transform Your Space With Natural Beauty</h1>
+                    <p class="hero-subtitle">Curated premium plants and expert gardening essentials for your perfect sanctuary</p>
+                </div>
+            </div>
+            <div class="hero-overlay" aria-hidden="true"></div>
+        </section>
+
+        <!-- Categories Section -->
+        <section id="categories" class="categories-section">
+            <div class="container">
+                <header class="section-header">
+                    <h2 class="section-title">Curated Collections</h2>
+                    <p class="section-subtitle">Explore our expertly curated plant categories for every space</p>
+                </header>
+                
+                <!-- Feature Cards -->
+                <div class="features-container">
+                    <div class="feature-card" role="listitem">
+                        <i class="icon fas fa-shipping-fast" aria-hidden="true"></i>
+                        <h3>Free Shipping</h3>
+                        <p>On orders over $75</p>
+                    </div>
+                    <div class="feature-card" role="listitem">
+                        <i class="icon fas fa-leaf" aria-hidden="true"></i>
+                        <h3>Plant Guarantee</h3>
+                        <p>30-day happiness guarantee</p>
+                    </div>
+                    <div class="feature-card" role="listitem">
+                        <i class="icon fas fa-headset" aria-hidden="true"></i>
+                        <h3>Expert Support</h3>
+                        <p>Lifetime growing guidance</p>
+                    </div>
+                </div>
+                
+                <div class="categories-grid">
+                    <article class="category-card animate-fade-in" style="animation-delay: 0.1s">
+                        <div class="category-image">
+                            <img src="images/indoor-category.jpg" alt="Indoor Plants" loading="lazy">
+                        </div>
+                        <div class="category-content">
+                            <h3 class="category-title">Indoor Plants</h3>
+                            <p class="category-description">Transform your living space with our premium indoor plant collection</p>
+                            <a href="indoor-plants.html" class="button button-primary">Explore</a>
+                        </div>
+                    </article>
+                    <article class="category-card animate-fade-in" style="animation-delay: 0.2s">
+                        <div class="category-image">
+                            <img src="images/outdoor-category.jpg" alt="Outdoor Plants" loading="lazy">
+                        </div>
+                        <div class="category-content">
+                            <h3 class="category-title">Outdoor Plants</h3>
+                            <p class="category-description">Create your dream garden with our carefully selected outdoor varieties</p>
+                            <a href="outdoor-plants.html" class="button button-primary">Explore</a>
+                        </div>
+                    </article>
+                    <article class="category-card animate-fade-in" style="animation-delay: 0.3s">
+                        <div class="category-image">
+                            <img src="images/accessories-category.jpg" alt="Garden Accessories" loading="lazy">
+                        </div>
+                        <div class="category-content">
+                            <h3 class="category-title">Accessories</h3>
+                            <p class="category-description">Find all the premium tools you need for successful gardening</p>
+                            <a href="accessories.html" class="button button-primary">Explore</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Featured Products -->
+    <section id="products" class="featured-section">
+        <div class="container">
+            <header class="section-header">
+                <h2 class="section-title">Featured Collection</h2>
+                <p class="section-subtitle">Our most loved plants and accessories, handpicked for your home</p>
+            </header>
+            <div class="featured-grid">
+                <article class="product-card animate-fade-in" style="animation-delay: 0.1s" data-product-id="indoor-monstera">
+                    <div class="product-image">
+                        <img src="images/product1.jpg" alt="Monstera Deliciosa" loading="lazy">
+                        <span class="product-badge">Bestseller</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Monstera Deliciosa</h3>
+                        <p class="product-description">Perfect for bringing tropical vibes indoors</p>
+                        <div class="product-price">$49.99</div>
+                        <button class="button button-primary" data-action="add-to-cart">Add to Cart</button>
+                    </div>
+                </article>
+                <article class="product-card animate-fade-in" style="animation-delay: 0.2s" data-product-id="indoor-fiddle">
+                    <div class="product-image">
+                        <img src="images/product2.jpg" alt="Fiddle Leaf Fig" loading="lazy">
+                        <span class="product-badge">New</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Fiddle Leaf Fig</h3>
+                        <p class="product-description">Elegant centerpiece for any modern space</p>
+                        <div class="product-price">$65.99</div>
+                        <button class="button button-primary" data-action="add-to-cart">Add to Cart</button>
+                    </div>
+                </article>
+                <article class="product-card animate-fade-in" style="animation-delay: 0.3s" data-product-id="accessory-planter">
+                    <div class="product-image">
+                        <img src="images/product3.jpg" alt="Ceramic Plant Pot" loading="lazy">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Ceramic Plant Pot</h3>
+                        <p class="product-description">Handcrafted ceramic pot with drainage system</p>
+                        <div class="product-price">$29.99</div>
+                        <button class="button button-primary" data-action="add-to-cart">Add to Cart</button>
+                    </div>
+                </article>
+                <article class="product-card animate-fade-in" style="animation-delay: 0.4s" data-product-id="indoor-snake">
+                    <div class="product-image">
+                        <img src="images/product4.jpg" alt="Snake Plant" loading="lazy">
+                        <span class="product-badge">Popular</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Snake Plant</h3>
+                        <p class="product-description">Low-maintenance plant perfect for busy lifestyles</p>
+                        <div class="product-price">$35.99</div>
+                        <button class="button button-primary" data-action="add-to-cart">Add to Cart</button>
+                    </div>
+                </article>
+            </div>
+            <div class="section-cta">
+                <a href="#all-products" class="button button-secondary">View All Products</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Testimonials Section -->
+    <section id="testimonials" class="testimonials-section" aria-labelledby="testimonials-title">
+        <div class="container">
+            <header class="section-header">
+                <h2 id="testimonials-title" class="section-title">What Our Customers Say</h2>
+                <p class="section-subtitle">Real experiences from our garden community</p>
+            </header>
+            
+            <div class="testimonials-grid">
+                <article class="testimonial-card animate-fade-in" style="animation-delay: 0.1s">
+                    <div class="testimonial-content">
+                        <div class="testimonial-rating" aria-label="5 out of 5 stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <blockquote>
+                            <p>"My Culture transformed my backyard into a stunning oasis. Their expert guidance made all the difference in creating my dream garden space!"</p>
+                        </blockquote>
+                        <footer class="testimonial-footer">
+                            <img src="images/testimonial1.jpg" alt="" width="60" height="60" loading="lazy">
+                            <div class="testimonial-author">
+                                <cite>Sarah Johnson</cite>
+                                <span class="testimonial-location">Portland, OR</span>
+                            </div>
+                        </footer>
+                    </div>
+                </article>
+
+                <article class="testimonial-card animate-fade-in" style="animation-delay: 0.2s">
+                    <div class="testimonial-content">
+                        <div class="testimonial-rating" aria-label="5 out of 5 stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <blockquote>
+                            <p>"The quality of their plants and tools is unmatched. Every purchase has exceeded my expectations, and their customer service is exceptional!"</p>
+                        </blockquote>
+                        <footer class="testimonial-footer">
+                            <img src="images/testimonial2.jpg" alt="" width="60" height="60" loading="lazy">
+                            <div class="testimonial-author">
+                                <cite>Michael Peterson</cite>
+                                <span class="testimonial-location">Austin, TX</span>
+                            </div>
+                        </footer>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="process-section" aria-labelledby="process-title">
+        <div class="container">
+            <header class="section-header">
+                <h2 id="process-title" class="section-title">How It Works</h2>
+                <p class="section-subtitle">Start your gardening journey in three simple steps</p>
+            </header>
+
+            <div class="process-grid">
+                <div class="process-step animate-fade-in" style="animation-delay: 0.1s">
+                    <div class="step-number">01</div>
+                    <h3>Browse & Select</h3>
+                    <p>Explore our curated collection of premium plants and accessories</p>
+                </div>
+                <div class="process-step animate-fade-in" style="animation-delay: 0.2s">
+                    <div class="step-number">02</div>
+                    <h3>Quick Delivery</h3>
+                    <p>Receive your plants carefully packaged and in perfect condition</p>
+                </div>
+                <div class="process-step animate-fade-in" style="animation-delay: 0.3s">
+                    <div class="step-number">03</div>
+                    <h3>Expert Support</h3>
+                    <p>Get personalized care advice to help your plants thrive</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section id="newsletter" class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-container">
+                <div class="newsletter-content">
+                    <h2>Join Our Community</h2>
+                    <p>Subscribe to receive gardening tips, exclusive offers, and first access to new collections.</p>
+                </div>
+                <form class="newsletter-form" action="#" method="post">
+                    <div class="form-group">
+                        <div class="floating-label">
+                            <input type="email" id="email" name="email" placeholder=" " required>
+                            <label for="email">Your email address</label>
+                        </div>
+                        <button type="submit" class="button button-primary">Subscribe</button>
+                    </div>
+                    <div class="form-consent">
+                        <label>
+                            <input type="checkbox" required>
+                            <span>I agree to receive email communications from My Culture Garden.</span>
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" aria-label="My Culture Home">
+                        <img src="images/new/mc-logo-white.png" alt="My Culture" width="120" height="120">
+                    </a>
+                    <p class="footer-tagline">Premium Garden Experience</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-nav">
+                    <h3>Shop</h3>
+                    <ul>
+                        <li><a href="#indoor">Indoor Plants</a></li>
+                        <li><a href="#outdoor">Outdoor Plants</a></li>
+                        <li><a href="#accessories">Accessories</a></li>
+                        <li><a href="#care">Plant Care</a></li>
+                        <li><a href="#gift">Gift Sets</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#about">Our Story</a></li>
+                        <li><a href="#sustainability">Sustainability</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#press">Press</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav">
+                    <h3>Customer Care</h3>
+                    <ul>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#faq">FAQs</a></li>
+                        <li><a href="#shipping">Shipping & Returns</a></li>
+                        <li><a href="#warranty">Plant Guarantee</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2023 My Culture Garden Experience. All rights reserved.</p>
+                <div class="payment-methods">
+                    <span>Secure Payments:</span>
+                    <i class="fab fa-cc-visa" aria-label="Visa"></i>
+                    <i class="fab fa-cc-mastercard" aria-label="Mastercard"></i>
+                    <i class="fab fa-cc-amex" aria-label="American Express"></i>
+                    <i class="fab fa-cc-paypal" aria-label="PayPal"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="script.js"></script>
+    <script src="hero-optimization.js"></script>
+</body>
+</html>
