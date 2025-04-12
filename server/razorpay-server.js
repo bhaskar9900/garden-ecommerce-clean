@@ -9,7 +9,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
-const serverless = require('serverless-http');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -162,16 +161,10 @@ app.use((req, res) => {
     });
 });
 
-// Export the Express app for both local development and Netlify Functions
-if (process.env.NETLIFY) {
-    // Export as Netlify Function
-    exports.handler = serverless(app);
-} else {
-    // Start server for local development
-    app.listen(PORT, () => {
-        console.log(`Razorpay server running on port ${PORT}`);
-        console.log(`Test the server at: http://localhost:${PORT}/api/razorpay/test`);
-    });
-}
+// Start server for local development
+app.listen(PORT, () => {
+    console.log(`Razorpay server running on port ${PORT}`);
+    console.log(`Test the server at: http://localhost:${PORT}/api/razorpay/test`);
+});
 
 module.exports = app; 
