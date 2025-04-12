@@ -4,13 +4,17 @@
  */
 
 const RazorpayConfig = {
-    // Razorpay API Keys - Replace with your actual keys
-    keyId: 'YOUR_RAZORPAY_KEY_ID', // Your Razorpay key
+    // Razorpay API Keys
+    keyId: 'rzp_test_blBcri65LP5nyx', // Your Razorpay test key
     
-    // Endpoint URLs
+    // Endpoint URLs - dynamically set based on environment
     endpoints: {
-        createOrder: '/api/razorpay/create-order',
-        verifyPayment: '/api/razorpay/verify-payment'
+        createOrder: window.location.hostname === 'localhost' 
+            ? 'http://localhost:3001/api/razorpay/create-order'
+            : '/api/razorpay/create-order',
+        verifyPayment: window.location.hostname === 'localhost'
+            ? 'http://localhost:3001/api/razorpay/verify-payment'
+            : '/api/razorpay/verify-payment'
     },
     
     // Redirect URLs
